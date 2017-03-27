@@ -1,6 +1,6 @@
-from axelrod.actions import Actions, Action
+from axelrod.actions import Actions, Action, str_to_actions
 from axelrod.player import Player
-
+import itertools
 import copy
 
 
@@ -46,7 +46,7 @@ class Cycler(Player):
 
     name = 'Cycler'
     classifier = {
-        'memory_depth': 1,
+        'memory_depth': 2,
         'stochastic': False,
         'makes_use_of': set(),
         'long_run_time': False,
@@ -55,7 +55,7 @@ class Cycler(Player):
         'manipulates_state': False
     }
 
-    def __init__(self, cycle="CCD") -> None:
+    def __init__(self, cycle: str = "CCD") -> None:
         """This strategy will repeat the parameter `cycle` endlessly,
         e.g. C C D C C D C C D ...
 
@@ -67,14 +67,20 @@ class Cycler(Player):
 
         """
         super().__init__()
-        self.cycle = cycle
+        self.cycle_str = cycle
+        self.cycle = self.get_new_itertools_cycle()
         self.name = "Cycler {}".format(cycle)
         self.classifier['memory_depth'] = len(cycle) - 1
 
+    def get_new_itertools_cycle(self):
+        return itertools.cycle(str_to_actions(self.cycle_str))
+
     def strategy(self, opponent: Player) -> Action:
-        curent_round = len(self.history)
-        index = curent_round % len(self.cycle)
-        return self.cycle[index]
+        return next(self.cycle)
+
+    def reset(self):
+        super(Cycler, self).reset()
+        self.cycle = self.get_new_itertools_cycle()
 
 
 class CyclerDC(Cycler):
