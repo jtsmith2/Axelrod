@@ -7,7 +7,7 @@ import copy
 class AntiCycler(Player):
     """
     A player that follows a sequence of plays that contains no cycles:
-    C CD CCD CCCD CCCCD CCCCCD ...
+    CD CCD CCCD CCCCD CCCCCD ...
     """
 
     name = 'AntiCycler'
@@ -23,8 +23,8 @@ class AntiCycler(Player):
 
     def __init__(self) -> None:
         super().__init__()
-        self.cycle_length = 1
-        self.cycle_counter = 0
+        self.cycle_length = 2
+        self.cycle_counter = 1
 
     def strategy(self, opponent: Player) -> Action:
         if self.cycle_counter < self.cycle_length:
@@ -32,13 +32,13 @@ class AntiCycler(Player):
             return Actions.C
         else:
             self.cycle_length += 1
-            self.cycle_counter = 0
+            self.cycle_counter = 1
             return Actions.D
 
     def reset(self):
         super().reset()
-        self.cycle_length = 1
-        self.cycle_counter = 0
+        self.cycle_length = 2
+        self.cycle_counter = 1
 
 
 class Cycler(Player):
