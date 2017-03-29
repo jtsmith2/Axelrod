@@ -453,7 +453,7 @@ class MixedMetaWinner(MetaWinner):
 
     Names:
 
-    - Adaptive Meta Mixer: Original name by J. Taylor Smith
+    - Mixed Meta Winner: Original name by J. Taylor Smith
     """
 
     name = "Mixed Meta Winner"

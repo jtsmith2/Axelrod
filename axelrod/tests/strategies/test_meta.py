@@ -549,3 +549,27 @@ class TestNMWEMemoryOne(TestMetaPlayer):
 
     def test_strategy(self):
         self.first_play_test(C)
+
+
+class TestMixedMetaWinner(TestMetaPlayer):
+    name = "Mixed Meta Winner"
+    player = axelrod.MixedMetaWinner
+    expected_classifier = {
+        'memory_depth': float('inf'),  # Long memory
+        'stochastic': True,
+        'makes_use_of': {'game', 'length'},
+        'long_run_time': True,
+        'inspects_source': False,
+        'manipulates_source': False,
+        'manipulates_state': False
+    }
+
+    def test_strategy(self):
+        team = [axelrod.Cooperator, axelrod.TitForTat, axelrod.Grudger]
+
+        P1 = axelrod.MixedMetaWinner(team=team)
+        P2 = axelrod.Cooperator()
+
+        for k in range(100):
+            P1.play(P2)
+            self.assertEqual(P1.history[-1], C)
