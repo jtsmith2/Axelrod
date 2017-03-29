@@ -13,7 +13,7 @@ from .meta import (
     MetaWinnerEnsemble, MetaWinnerMemoryOne, MetaWinnerFiniteMemory,
     MetaWinnerLongMemory, MetaWinnerStochastic, NMWEDeterministic,
     NMWEFiniteMemory, NMWELongMemory, NMWEMemoryOne, NMWEStochastic,
-    NiceMetaWinner, NiceMetaWinnerEnsemble,
+    NiceMetaWinner, NiceMetaWinnerEnsemble, MixedMetaWinner
     )
 
 all_strategies += [
@@ -32,6 +32,7 @@ all_strategies += [
     MetaWinnerFiniteMemory,
     MetaWinnerLongMemory,
     MetaWinnerStochastic,
+    MixedMetaWinner,
     NMWEDeterministic,
     NMWEFiniteMemory,
     NMWELongMemory,

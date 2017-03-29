@@ -441,3 +441,32 @@ class NMWEMemoryOne(NiceMetaWinnerEnsemble):
                 <= 1]
         super().__init__(team=team)
         self.classifier["long_run_time"] = False
+
+
+class MixedMetaWinner(MetaWinner):
+    """
+    A variation of MetaWinnerEnsemble strategy.  Basically, a team is created where on
+    each turn a distribution is calculated based on the scores of the players.  This distribution is then
+    used to randomly choose the next move. The strategy is then more likely to pick a winning team.
+    This can also be seen as a variation on the MetaMixer strategy as it updates the mixed strategy
+    on each turn.
+
+    Names:
+
+    - Adaptive Meta Mixer: Original name by J. Taylor Smith
+    """
+
+    name = "Mixed Meta Winner"
+
+    def meta_strategy(self, results, opponent):
+        self._update_scores(opponent)
+        scores = [(score, i) for (i, score) in enumerate(self.scores)]
+        # Create distribution
+        total = sum(self.scores)
+        if total:
+            distribution = [s/total for (s, i) in scores]
+        else:
+            distribution = None
+        # Choose a strategy weighted by their scores
+        index = choice([i for (s, i) in scores], p=distribution)
+        return results[index]
